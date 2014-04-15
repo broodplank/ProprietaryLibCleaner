@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#Proprietary Lib Cleaner
+#Patcher
+#Copyright (c) 2014. broodplank.net
+
+PATHTARGET=`cat dbs/targetset`;
+lines=`wc -l dbs/${PATHTARGET} | cut -f1 -d' '`
+
+echo "Mounting system"
+adb wait-for-device
+adb shell mount -o remount rw /system
+
+for i in `seq 1 $lines` ;
+do
+
+  echo "- Target: ${PATHTARGET##*/}"
+  echo "-- Destroing '`sed -n -e ${i}p dbs/${PATHTARGET}`'";
+  echo -n "--- Checking if patch compatible. pulling: "
+  adb -d shell "sfk rep `cat dbs/targetset` '/`sed -n -e ${i}p dbs/$PATHTARGET`//' -dump > /sdcard/test"
+  adb -d pull /sdcard/test
+      if [[ `grep "1 would be changed" $PWD/test` ]]; then
+          echo -e "---- \e[32mCompatible!\e[0m Performing real patch!"
+          adb -d shell "sfk rep `cat dbs/targetset` '/`sed -n -e ${i}p dbs/$PATHTARGET`//' -dump -yes > /sdcard/test"
+          echo ">>> DONE!"
+          echo
+       else
+          echo -e "---- \e[31mNot compatible\e[0m, already patched?"
+          echo " Press [enter] to continue"
+          read enter
+       fi;
+done
+

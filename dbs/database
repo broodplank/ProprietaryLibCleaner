@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#Proprietary Lib Cleaner
+#Copyright (c) 2014. broodplank.net
+
+  if [ -e dbs/output ]; then 
+    rm dbs/output
+  fi;
+
+  if [ -e dbs/targets ]; then 
+    rm dbs/targets
+  fi;
+
+  find ./dbs/system/ -type f -printf "%p\n" | sed -e 's|./patcher||g' | sed -e 's|./database||g'  > dbs/targets
+  
+  while read line
+  do
+    name=$line
+    lines=`wc -l $line | cut -f1 -d' '`
+    echo -e "\n\e[32m>> $line -\e[0m\e[33m (Number of patches: $lines)\e[0m" | sed -e 's|./dbs||g' >> dbs/output
+
+    cat $name >> dbs/output
+  done < dbs/targets 
+
+	echo -en "\e[34m==ᐶ Available targets:\e[0m"
+
+  cat dbs/output | more
+
+  echo
+  echo "Listing targets and patches done!"
+  echo
+  echo "Press [enter] to continue"
+  read enter
+  echo
+  
+
+
+
+  

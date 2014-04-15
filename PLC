@@ -1,0 +1,145 @@
+#!/bin/bash
+
+#Proprietary Lib Cleaner v0.5
+#PLC Main Script
+#Copyright (c) 2014. broodplank.net
+
+	bold=`tput bold`
+    normal=`tput sgr0`
+
+while :
+do
+
+   clear;
+
+  if [ -e dbs/output ]; then 
+    rm dbs/output
+  fi;
+
+  if [ -e dbs/targets ]; then 
+    rm dbs/targets
+  fi;
+
+  if [ -e dbs/targetset ]; then 
+    rm dbs/targetset
+  fi;
+
+  if [ -e test ]; then 
+    rm test
+  fi;
+
+    echo
+	echo "=============================================="
+	echo "==> ${bold}Proprietary Lib Cleaner Version 0.5"
+	echo "==> Created by broodplank1337 @ XDA           "
+	echo "==> Copyright (c) 2014 broodplank.net${normal}"
+	echo "=============================================="
+	echo
+	echo
+	echo "${bold}==ᐶ Install${normal}" 
+	echo
+	echo "  [1] Install ADB + USB driver on PC"
+	echo "  [2] Install Swiss File Knife on phone"
+	echo
+	echo "${bold}==ᐶ General${normal}"
+    echo
+	echo "  [3] Information"
+	echo "  [4] View targets & patches"
+    echo
+    echo "${bold}==ᐶ Actions${normal}"
+    echo
+   	echo "  [5] Set target & start patch"
+	echo "  [6] Exit"
+	echo
+	echo
+	echo -en "${bold}==ᐶ Menu Selection: "
+    read opt
+    echo "${normal}"
+
+  if [ "$?" != "x" ]
+  then
+    case $opt in
+    
+	 1) clear;
+			echo
+			echo "${bold}Installing ADB and ADB Drivers${normal}"
+			sudo add-apt-repository ppa:nilarimogard/webupd8 -y;
+			sudo apt-get update;
+			sudo apt-get install android-tools-adb -y;
+			echo "Done!"
+			echo
+			echo "Installing ADB Drivers"
+			wget http://www.broodplank.net/51-android.rules
+			sudo mv -f 51-android.rules /etc/udev/rules.d/51-android.rules
+			sudo chmod 644 /etc/udev/rules.d/51-android.rules
+			echo "Done!"
+			;;
+
+
+	  2) clear;
+			echo
+			echo "${bold}Installing Swiss File Knife to phone${normal}"
+			echo "Make sure your phone is in debugging mode"
+			echo
+			echo "Waiting for device..."
+			echo
+			adb -d wait-for-device
+			echo "Mounting system";
+			adb -d remount;
+			echo "Pushing file to /system/bin";
+			adb -d push ${PWD}/sfk /system/bin/sfk;
+			echo "Setting mode to 755 (RWX-RX-RX)";
+			adb -d shell chmod 755 /system/bin/sfk;
+			echo "Done!";
+			echo -n "Press [enter] to continue"
+			read enter
+
+			continue;;
+
+	 
+
+	3) clear;
+			echo
+			echo "0"
+			echo "|========================================="
+			echo "|==> Proprietary Lib Cleaner             ="
+			echo "|==> Created by broodplank1337 @ XDA     ="
+			echo "|==> Copyright (c) 2014 broodplank.net   ="
+			echo "|========================================="
+			echo "|"
+			echo "| Proprietary libs/binaries tend to spam logcat an awful lot, making it harder"
+			echo "| for you to properly read logcat, that's why I have created this tool that"
+			echo "| allows you to remove certain common lines, which you do NOT want to see in"
+			echo "| your logcat all the time, This will make logcat much more peacful and readable"
+			echo "|"
+			echo "| - 'The quieter you become the more you are able to hear'"
+			echo "|"
+			echo "| >>> WARNING: Use this tool at your own risk!, It manipulates system files <<<"
+			echo "|"
+			echo "|"
+			echo "^"
+			echo -n "Press [enter] to continue"
+
+			read enter
+
+	  		continue;;
+
+
+    4) clear;
+			clear;
+      		./dbs/database
+			;;
+    
+    5) clear; 
+			clear;
+			./dbs/picker
+  			;;
+
+	6)
+	  		exit;;
+
+      *) echo "Invalid option"; continue;;
+    esac
+  fi
+
+done

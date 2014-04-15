@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#Proprietary Lib Cleaner
+#Copyright (c) 2014. broodplank.net
+
+  echo
+  echo "Please select the target"
+  echo
+  if [ -e dbs/output ]; then 
+    rm dbs/output
+  fi;
+
+  if [ -e dbs/targets ]; then 
+    rm dbs/targets
+  fi;
+
+  if [ -e dbs/targetset ]; then 
+    rm dbs/targetset
+  fi;
+
+  find ./dbs/system/ -type f -printf "%p\n" | sed -e 's|./patcher||g' | sed -e 's|./database||g' | sed -e 's|./dbs||g' > dbs/targets
+  
+  lines=`wc -l dbs/targets | cut -f1 -d' '`
+
+  for i in `seq 1 $lines`;
+  do
+     echo -n "- [$i] "; sed -n -e ${i}p dbs/targets
+  done
+     echo 
+     echo "- [0] Go back"
+
+  echo
+  echo -n "Choice: "
+  read choice 
+  echo
+
+  if [ $choice = 0 ]; then
+    . PLC
+  fi;
+  TARGET=`sed -n -e ${choice}p dbs/targets`
+
+  echo $TARGET > dbs/targetset
+
+  ./dbs/patcher
+
+
+  

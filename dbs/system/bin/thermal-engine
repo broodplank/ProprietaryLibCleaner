@@ -1,0 +1,4 @@
+TM Id '%s' Sensor '%s' - alarm raised %d at %d.%d degC
+TM Id '%s' Sensor '%s' - alarm cleared %d at %d.%d degC
+ACTION: CPU - Setting CPU[%d] to %d
+ACTION: REPORT - Sensor '%s' - temperature %d, threshold level %d, is_trigger %s
