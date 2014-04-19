@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Proprietary Lib Cleaner v0.6
+#Proprietary Lib Cleaner v0.7
 #PLC Main Script
 #Copyright (c) 2014. broodplank.net
 
@@ -30,7 +30,7 @@ do
 
     echo
 	echo "=============================================="
-	echo "==> ${bold}Proprietary Lib Cleaner Version 0.5"
+	echo "==> ${bold}Proprietary Lib Cleaner Version 0.7"
 	echo "==> Created by broodplank1337 @ XDA           "
 	echo "==> Copyright (c) 2014 broodplank.net${normal}"
 	echo "=============================================="
@@ -63,9 +63,11 @@ do
 	 1) clear;
 			echo
 			echo "${bold}Installing ADB and ADB Drivers${normal}"
-			sudo add-apt-repository ppa:nilarimogard/webupd8 -y;
-			sudo apt-get update;
-			sudo apt-get install android-tools-adb -y;
+			echo "Downloading ADB Binary"
+			wget http://www.broodplank.net/files/adb
+			echo "Moving to /bin"
+			sudo mv -f adb /bin/adb
+			sudo chmod 755 /bin/adb
 			echo "Done!"
 			echo
 			echo "Installing ADB Drivers"
@@ -73,7 +75,9 @@ do
 			sudo mv -f 51-android.rules /etc/udev/rules.d/51-android.rules
 			sudo chmod 644 /etc/udev/rules.d/51-android.rules
 			echo "Done!"
-			;;
+			echo "Press [enter] to continue"
+			read enter
+			continue;;
 
 
 	  2) clear;
@@ -93,7 +97,6 @@ do
 			echo "Done!";
 			echo -n "Press [enter] to continue"
 			read enter
-
 			continue;;
 
 	 
