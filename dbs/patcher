@@ -15,7 +15,7 @@ for i in `seq 1 $lines` ;
 do
 
   echo "- Target: ${PATHTARGET##*/}"
-  echo "-- Destroing '`sed -n -e ${i}p dbs/${PATHTARGET}`'";
+  echo "-- Destroying '`sed -n -e ${i}p dbs/${PATHTARGET}`'";
   echo -n "--- Checking if patch compatible. pulling: "
   adb -d shell "sfk rep `cat dbs/targetset` '/`sed -n -e ${i}p dbs/$PATHTARGET`//' -dump > /sdcard/test"
   adb -d pull /sdcard/test
