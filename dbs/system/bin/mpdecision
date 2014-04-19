@@ -1,5 +1,5 @@
 num online cores: %d reqd : %d available : %d rq_depth:%f
-num online cores: %d reqd : %d available : %d rq_depth:%f hotplug_avg_load_dw: %d
+hotplug_avg_load_dw: %d
 UP cpu:%d core_idx:%d Nw:%f Tw:%d total_time_up:%f
 DOWN cpu:%d core_idx:%d Ns:%f Ts:%d total_time_down:%f
 cpu%d: core_idx: %d uptime: %f downtime %f
