@@ -17,11 +17,12 @@ do
   echo "- Target: ${PATHTARGET##*/}"
   echo "-- Destroying '`sed -n -e ${i}p dbs/${PATHTARGET}`'";
   echo -n "--- Checking if patch compatible. pulling: "
-  adb -d shell "sfk rep `cat dbs/targetset` '/`sed -n -e ${i}p dbs/$PATHTARGET`//' -dump > /sdcard/test"
+  READLINE=`sed -n -e ${i}p dbs/$PATHTARGET`;
+  adb -d shell "sfk rep `cat dbs/targetset` \"/${READLINE}//\" -dump > /sdcard/test"
   adb -d pull /sdcard/test
       if [[ `grep "1 would be changed" $PWD/test` ]]; then
           echo -e "---- \e[32mCompatible!\e[0m Performing real patch!"
-          adb -d shell "sfk rep `cat dbs/targetset` '/`sed -n -e ${i}p dbs/$PATHTARGET`//' -dump -yes > /sdcard/test"
+          adb -d shell "sfk rep `cat dbs/targetset` \"/${READLINE}//\" -dump -yes > /sdcard/test"
           echo ">>> DONE!"
           echo
        else
